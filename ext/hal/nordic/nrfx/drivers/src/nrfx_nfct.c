@@ -30,6 +30,7 @@
  */
 
 #include <nrfx.h>
+#include <kernel.h>
 
 #if NRFX_CHECK(NRFX_NFCT_ENABLED)
 
@@ -350,6 +351,7 @@ static inline void nrfx_nfct_reset(void)
     nrf_nfct_int_disable(NRFX_NFCT_RX_INT_MASK | NRFX_NFCT_TX_INT_MASK);
 
     NRFX_LOG_INFO("Reinitialize");
+    printk("Reinitialize");
 }
 
 static void nrfx_nfct_field_poll(void)
@@ -497,6 +499,7 @@ nrfx_err_t nrfx_nfct_init(nrfx_nfct_config_t const * p_config)
     m_nfct_cb.state = NRFX_DRV_STATE_INITIALIZED;
 
     NRFX_LOG_INFO("Initialized");
+    printk("Initialized\n");
     return err_code;
 }
 
@@ -532,6 +535,7 @@ void nrfx_nfct_enable(void)
 #endif //!defined(NRF52832_XXAA) && !defined(NRF52832_XXAB)
 
     NRFX_LOG_INFO("Start");
+    printk("Start\n");
 }
 
 void nrfx_nfct_disable(void)
@@ -540,6 +544,7 @@ void nrfx_nfct_disable(void)
     nrf_nfct_task_trigger(NRF_NFCT_TASK_DISABLE);
 
     NRFX_LOG_INFO("Stop");
+    printk("Stop\n");
 }
 
 bool nrfx_nfct_field_check(void)
@@ -585,6 +590,7 @@ nrfx_err_t nrfx_nfct_tx(nrfx_nfct_data_desc_t const * p_tx_data,
     nrf_nfct_task_trigger(NRF_NFCT_TASK_STARTTX);
 
     NRFX_LOG_INFO("Tx start");
+    printk("Tx start\n");
     return NRFX_SUCCESS;
 }
 
@@ -753,6 +759,7 @@ void nrfx_nfct_irq_handler(void)
         current_field = NRFX_NFC_FIELD_STATE_ON;
 
         NRFX_LOG_DEBUG("Field detected");
+	printk("Field detected");
     }
 
 #if !defined(NRF52832_XXAA) && !defined(NRF52832_XXAB)
@@ -763,6 +770,7 @@ void nrfx_nfct_irq_handler(void)
                         NRFX_NFC_FIELD_STATE_OFF : NRFX_NFC_FIELD_STATE_UNKNOWN;
 
         NRFX_LOG_DEBUG("Field lost");
+	printk("Field lost\n");
     }
 #endif //!defined(NRF52832_XXAA) && !defined(NRF52832_XXAB)
 
@@ -793,6 +801,18 @@ void nrfx_nfct_irq_handler(void)
             nrf_nfct_event_clear(NRF_NFCT_EVENT_RXERROR);
 
             NRFX_LOG_DEBUG("Rx error (0x%x)", (unsigned int) nfct_evt.params.rx_frameend.rx_status);
+	printk("Rx error (0x%x)\n", (unsigned int) nfct_evt.params.rx_frameend.rx_status);
+	
+	     u32_t size_tx = NRFX_NFCT_BITS_TO_BYTES(nrf_nfct_rx_bits_get(false));
+
+	     printk("Rx data: ");
+	     for (size_t i = 0; i < size_tx + 1; i++) {
+		printk("%x ", nfct_evt.params.rx_frameend.rx_data.p_data[i]);
+	     }
+
+	     printk("\n");
+	     printk("Data size: %d \n", size_tx);
+
 
             /* Clear rx frame status */
             nrf_nfct_rx_frame_status_clear(NRFX_NFCT_FRAME_STATUS_RX_ALL_MASK);
@@ -804,6 +824,7 @@ void nrfx_nfct_irq_handler(void)
         nrf_nfct_event_clear(NRF_NFCT_EVENT_TXFRAMESTART);
 
         NRFX_LOG_DEBUG("Rx fend");
+	printk("Rx fend\n");
     }
 
     if (NRFX_NFCT_EVT_ACTIVE(TXFRAMEEND))
@@ -821,6 +842,7 @@ void nrfx_nfct_irq_handler(void)
         NRFX_NFCT_CB_HANDLE(m_nfct_cb.config.cb, nfct_evt);
 
         NRFX_LOG_DEBUG("Tx fend");
+	printk("Tx fend\n");
     }
 
     if (NRFX_NFCT_EVT_ACTIVE(SELECTED))
@@ -870,6 +892,7 @@ void nrfx_nfct_irq_handler(void)
         if (err_status)
         {
             NRFX_LOG_DEBUG("Error (0x%x)", (unsigned int) err_status);
+	    printk("Error (0x%x)\n", (unsigned int) err_status);
         }
 
         /* Clear error status. */
