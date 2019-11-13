@@ -200,7 +200,7 @@ void nrf_power_clock_isr(void *arg);
 static int hfclk_init(struct device *dev)
 {
 	IRQ_CONNECT(DT_INST_0_NORDIC_NRF_CLOCK_IRQ_0,
-		    DT_INST_0_NORDIC_NRF_CLOCK_IRQ_0_PRIORITY,
+		    0,
 		    nrf_power_clock_isr, 0, 0);
 
 	irq_enable(DT_INST_0_NORDIC_NRF_CLOCK_IRQ_0);
