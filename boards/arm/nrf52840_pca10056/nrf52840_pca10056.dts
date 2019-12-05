@@ -25,6 +25,13 @@
 
 	leds {
 		compatible = "gpio-leds";
+		status = "okay";
+		label = "Leds";
+		gpios = <&gpio0 13 GPIO_INT_ACTIVE_LOW>,
+		        <&gpio0 14 GPIO_INT_ACTIVE_LOW>,
+			<&gpio0 15 GPIO_INT_ACTIVE_LOW>,
+			<&gpio0 16 GPIO_INT_ACTIVE_LOW>;
+
 		led0: led_0 {
 			gpios = <&gpio0 13 GPIO_INT_ACTIVE_LOW>;
 			label = "Green LED 0";
@@ -75,6 +82,7 @@
 		#gpio-cells = <2>;
 		gpio-map-mask = <0xffffffff 0xffffffc0>;
 		gpio-map-pass-thru = <0 0x3f>;
+		status = "okay";
 		gpio-map = <0 0 &gpio0 3 0>,	/* A0 */
 			   <1 0 &gpio0 4 0>,	/* A1 */
 			   <2 0 &gpio0 28 0>,	/* A2 */
