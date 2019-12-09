@@ -23,29 +23,34 @@
 		zephyr,code-partition = &slot0_partition;
 	};
 
+	#define LED_0_GPIO <&gpio0 13 GPIO_INT_ACTIVE_LOW>
+	#define LED_1_GPIO <&gpio0 14 GPIO_INT_ACTIVE_LOW>
+	#define LED_2_GPIO <&gpio0 15 GPIO_INT_ACTIVE_LOW>
+	#define LED_3_GPIO <&gpio0 16 GPIO_INT_ACTIVE_LOW>
+
 	leds {
 		compatible = "gpio-leds";
 		status = "okay";
 		label = "Leds";
-		gpios = <&gpio0 13 GPIO_INT_ACTIVE_LOW>,
-		        <&gpio0 14 GPIO_INT_ACTIVE_LOW>,
-			<&gpio0 15 GPIO_INT_ACTIVE_LOW>,
-			<&gpio0 16 GPIO_INT_ACTIVE_LOW>;
+		gpios = LED_0_GPIO,
+		        LED_1_GPIO,
+			LED_2_GPIO,
+			LED_3_GPIO;
 
 		led0: led_0 {
-			gpios = <&gpio0 13 GPIO_INT_ACTIVE_LOW>;
+			gpios = LED_0_GPIO;
 			label = "Green LED 0";
 		};
 		led1: led_1 {
-			gpios = <&gpio0 14 GPIO_INT_ACTIVE_LOW>;
+			gpios = LED_1_GPIO;
 			label = "Green LED 1";
 		};
 		led2: led_2 {
-			gpios = <&gpio0 15 GPIO_INT_ACTIVE_LOW>;
+			gpios = LED_2_GPIO;
 			label = "Green LED 2";
 		};
 		led3: led_3 {
-			gpios = <&gpio0 16 GPIO_INT_ACTIVE_LOW>;
+			gpios = LED_3_GPIO;
 			label = "Green LED 3";
 		};
 	};
