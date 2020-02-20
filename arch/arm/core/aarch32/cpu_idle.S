@@ -73,7 +73,7 @@ SECTION_FUNC(TEXT, arch_cpu_idle)
 #error Unknown ARM architecture
 #endif /* CONFIG_ARMV6_M_ARMV8_M_BASELINE */
 
-	wfi
+	//wfi
 
 	bx lr
 
@@ -105,7 +105,7 @@ SECTION_FUNC(TEXT, arch_cpu_atomic_idle)
 #if defined(CONFIG_ARMV6_M_ARMV8_M_BASELINE) \
 	|| defined(CONFIG_ARMV7_R)
 	/* No BASEPRI, call wfe directly (SEVONPEND set in z_CpuIdleInit()) */
-	wfe
+	//wfe
 
 	cmp r0, #0
 	bne _irq_disabled
@@ -119,7 +119,7 @@ _irq_disabled:
 	/* unlock BASEPRI so wfe gets interrupted by incoming interrupts */
 	msr BASEPRI, r1
 
-	wfe
+	//wfe
 
 	msr BASEPRI, r0
 	cpsie i
