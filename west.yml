@@ -21,6 +21,8 @@ manifest:
   remotes:
     - name: upstream
       url-base: https://github.com/zephyrproject-rtos
+    - name: kaga
+      url-base: https://github.com/KAGA164
 
   #
   # Please add items below based on alphabetical order
@@ -54,7 +56,8 @@ manifest:
       revision: f1fa8241f8786198ba41155413243de36ed878a5
       path: modules/hal/infineon
     - name: hal_nordic
-      revision: 74b3b21f60aa3dc9a4364ffc28dbb47ad8b699a9
+      remote: kaga
+      revision: a6db5502c64ed3b8c1b500d2ec83a5ee41789f66
       path: modules/hal/nordic
     - name: hal_openisa
       revision: 40d049f69c50b58ea20473bee14cf93f518bf262
